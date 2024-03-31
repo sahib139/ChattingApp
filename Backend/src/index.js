@@ -1,13 +1,20 @@
 const express = require("express");
 const { Server } = require("socket.io");
-const { createServer } = require("http"); 
+const { createServer } = require("http");
 const app = express();
 const server = createServer(app);
-const io = new Server();
+const io = new Server(server);
 
-const {PORT} = require("./config/server-config");
+const { PORT,RootPATH } = require("./config/server-config");
+const {AppRoutes} = require("./routes/index");
 
+app.use(express.static(RootPATH+"/Frontend"));
+app.use(AppRoutes);
 
-server.listen(PORT,()=>{
+io.on("connection", (socket) => {
+    console.log("A user connected with ID:", socket.id);
+});
+
+server.listen(3000, () => {
     console.log(`Server started at port ${PORT}`);
 });
