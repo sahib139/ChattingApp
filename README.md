@@ -1,1 +1,1 @@
-# Chatting backend Service using Socket.io
+# Chatting APP using Socket.io
