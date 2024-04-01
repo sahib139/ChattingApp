@@ -1,6 +1,10 @@
+const UserService = require("../services/user-service");
+
+const userService = new UserService();
+
 const signUp = async (req,res)=>{
     try {
-        console.log(req.body);
+        await userService.signUp(req.body); 
         res.status(200).json({
             data:"ok",
             success:true,
@@ -20,12 +24,17 @@ const signUp = async (req,res)=>{
 
 const logIn = async (req,res)=>{
     try {
-        console.log(req.body);
+        const token = userService.logIn(req.body);
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'Strict',
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),// 3 days
+        });
         res.status(200).json({
-            data:"ok",
-            success:true,
-            message:"logIn successfully",
-            err:{},
+            success: true,
+            message: "Login successful",
+            err: {},
         });
     } catch (error) {
         console.log(error);
