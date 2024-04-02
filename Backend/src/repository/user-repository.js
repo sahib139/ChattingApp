@@ -16,6 +16,16 @@ class UserRepository extends CrudRepository{
             throw error;
         }
     }
+
+    async getAll(filter){
+        try {
+            const users = await User.find().skip(filter.offset).limit(filter.limit);
+            return users;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserRepository;

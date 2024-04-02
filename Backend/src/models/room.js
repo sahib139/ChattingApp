@@ -5,6 +5,10 @@ const RoomSchema = new mongoose.Schema({
         type:String,
         require:true,
     },
+    roomName:{
+        type:String,
+        require:true,
+    },
     Users:[
         {
             type:mongoose.Schema.Types.ObjectId,

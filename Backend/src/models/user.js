@@ -16,7 +16,14 @@ const UserSchema = new mongoose.Schema({
     password:{
         type:String,
         require:true,
-    }
+    },
+    rooms:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Room",
+        }
+    ]
+
 },{timestamps:true});
 
 UserSchema.pre("save",function encryption(next){

@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const app = express();
@@ -12,6 +13,7 @@ const {DB_connect} = require("./config/database-config");
 const {AppRoutes} = require("./routes/index");
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(express.static(RootPATH+"/Frontend"));

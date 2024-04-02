@@ -5,7 +5,7 @@ const userService = new UserService();
 const signUp = async (req,res)=>{
     try {
         await userService.signUp(req.body); 
-        res.status(200).json({
+        return res.status(200).json({
             data:"ok",
             success:true,
             message:"SignUp successfully",
@@ -13,7 +13,7 @@ const signUp = async (req,res)=>{
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
             data:{},
             success:false,
             message:"Unable to SignUp",
@@ -24,21 +24,21 @@ const signUp = async (req,res)=>{
 
 const logIn = async (req,res)=>{
     try {
-        const token = userService.logIn(req.body);
+        const token = await userService.logIn(req.body);
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly: true, 
             secure: true,
             sameSite: 'Strict',
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),// 3 days
         });
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Login successful",
             err: {},
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
             data:{},
             success:false,
             message:"Unable to logIn",
@@ -47,7 +47,49 @@ const logIn = async (req,res)=>{
     }
 }
 
+const get = async (req,res)=>{
+    try {
+        const user = await userService.get(req.params.id);
+        return res.status(200).json({
+            data:user,
+            success:true,
+            message:"User fetched successfully",
+            err:{},
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            data:{},
+            success:false,
+            message:"Unable to get user",
+            err:error,
+        });
+    }
+}
+
+const getAll = async (req,res)=>{
+    try {
+        const users = await userService.getAll(req.body);
+        return res.status(200).json({
+            data:users,
+            success:true,
+            message:"User fetched successfully",
+            err:{},
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            data:{},
+            success:false,
+            message:"Unable to get users",
+            err:error,
+        });
+    }
+}
+
 module.exports={
     signUp,
     logIn,
+    get,
+    getAll,
 }
