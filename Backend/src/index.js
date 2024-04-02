@@ -17,7 +17,10 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(express.static(RootPATH+"/Frontend"));
-app.use(AppRoutes);
+app.get("/",(req,res)=>{
+    res.sendFile(RootPATH+"/Frontend/html/signIn.html");
+})
+app.use("/api",AppRoutes);
 
 io.on("connection", (socket) => {
     console.log("A user connected with ID:", socket.id);

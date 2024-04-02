@@ -32,6 +32,7 @@ const logIn = async (req,res)=>{
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),// 3 days
         });
         return res.status(200).json({
+            token:token,
             success: true,
             message: "Login successful",
             err: {},

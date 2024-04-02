@@ -6,6 +6,6 @@ const { isAuthenticate } = require("../../middleware/Authenticate");
 router.post("/singUp",UserControllers.signUp);
 router.post("/logIn",UserControllers.logIn);
 router.get("/users",isAuthenticate,UserControllers.getAll);
-router.get("/users:id",isAuthenticate,UserControllers.get);
+router.get("/users/:id",isAuthenticate,UserControllers.get);
 
 module.exports=router;

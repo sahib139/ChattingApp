@@ -11,7 +11,7 @@ class FriendService {
         try {
             const fromRequest = await this.userRepository.get(from);
             const toRequest = await  this.userRepository.get(to);
-            var friend = await this.friendRepository.find({id:toRequest.id});
+            var friend = await this.friendRepository.find({userId:toRequest.id});
             if(!friend){
                 friend = await this.friendRepository.create({userId:toRequest.id}); 
             } 

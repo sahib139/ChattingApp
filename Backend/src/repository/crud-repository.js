@@ -6,8 +6,8 @@ class CrudRepository{
 
     async create(data){
         try {
-            const user = await this.model.create(data);
-            return true;
+            const response = await this.model.create(data);
+            return response;
         } catch (error) {
             console.log(error);
             throw error;
@@ -16,8 +16,8 @@ class CrudRepository{
 
     async get(Id){
         try {
-            const user = await this.model.findById(Id);
-            return user;
+            const response = await this.model.findById(Id);
+            return response;
         } catch (error) {
             console.log(error);
             throw error;
@@ -26,8 +26,8 @@ class CrudRepository{
 
     async update(Id,data){
         try {
-            const user = await this.model.findByIdAndUpdate(Id,data,{new:true});
-            return user;
+            const response = await this.model.findByIdAndUpdate(Id,data,{new:true});
+            return response;
         } catch (error) {
             console.log(error);
             throw error;

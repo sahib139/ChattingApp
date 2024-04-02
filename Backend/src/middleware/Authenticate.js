@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const { SALT } = require("../config/server-config");
+const { SECRET_KEY } = require("../config/server-config");
 
 const isAuthenticate = async (req,res,next)=>{
     try {
-        const userToken = req.cookies.token;
-        const response = jwt.verify(userToken,SALT);
-        req.user = response;
+        const userToken = (!req.cookies)?req.body.token:req.cookies.token;
+        const response = jwt.verify(userToken,SECRET_KEY);
+        req.user = response,
         next();
     } catch (error) {
         console.log(error);
