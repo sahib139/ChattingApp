@@ -19,7 +19,11 @@ class UserRepository extends CrudRepository{
 
     async getAll(filter){
         try {
-            const users = await User.find().skip(filter.offset).limit(filter.limit);
+            let toSearchFor ;
+            if(filter.name){
+                toSearchFor.name = filter.name;
+            }
+            const users = await User.find(toSearchFor).skip(filter.offset).limit(filter.limit);
             return users;
         } catch (error) {
             console.log(error);
