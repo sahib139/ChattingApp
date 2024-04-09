@@ -3,9 +3,10 @@ const { SECRET_KEY } = require("../config/server-config");
 
 const isAuthenticate = async (req,res,next)=>{
     try {
-        const userToken = (!req.cookies)?req.body.token:req.cookies.token;
+        // const userToken = req.body.token;
+        const userToken = req.cookies.token;
         const response = jwt.verify(userToken,SECRET_KEY);
-        req.user = response,
+        req.user = response;
         next();
     } catch (error) {
         console.log(error);

@@ -1,4 +1,5 @@
 const {UserRepository} = require("../repository/index");
+const bcrypt = require("bcrypt");
 
 class UserService{
 
@@ -18,14 +19,14 @@ class UserService{
 
     async logIn(data){
         try {
-            const user = await this.userRepository.getByEmail(data.email);
+            const user = await this.userRepository.getByEmailWithPassword(data.email);
             if(!user){
                 throw "No user Found!";
             }
             if(!user.comparePassword(data.password)){
                 throw "Password Incorrect";
             }
-            const token = user.genToken();
+            const token = user.genToken(); 
             return token;
         } catch (error) {   
             console.log(error);

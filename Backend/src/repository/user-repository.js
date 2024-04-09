@@ -7,7 +7,28 @@ class UserRepository extends CrudRepository{
         super(User);
     }
 
-    async getByEmail(email){
+    
+    async get(id){
+        try {
+            const user = await User.findById(id).select('-password');
+            return user;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+    
+    async getWithPassword(id){
+        try {
+            const user = await User.findById(id).select('-password');
+            return user;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async getByEmailWithPassword(email){
         try {
             const user = await User.findOne({email});
             return user;
@@ -23,13 +44,14 @@ class UserRepository extends CrudRepository{
             if(filter.name){
                 toSearchFor.name = filter.name;
             }
-            const users = await User.find(toSearchFor).skip(filter.offset).limit(filter.limit);
+            const users = await User.find(toSearchFor).skip(filter.offset).limit(filter.limit).select('-password');;
             return users;
         } catch (error) {
             console.log(error);
             throw error;
-        }
+        } 
     }
+
 }
 
 module.exports = UserRepository;

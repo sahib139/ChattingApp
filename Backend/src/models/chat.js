@@ -11,7 +11,7 @@ const ChatSchema = new mongoose.Schema({
         ref:"Room",
         require:true,
     },
-    content:{
+    message:{
         type:String,
         require:true,
     }

@@ -25,14 +25,11 @@ const signUp = async (req,res)=>{
 const logIn = async (req,res)=>{
     try {
         const token = await userService.logIn(req.body);
-        res.cookie('token', token, {
-            httpOnly: true, 
-            secure: true,
-            sameSite: 'Strict',
-            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),// 3 days
-        });
         return res.status(200).json({
-            token:token,
+            token:{
+                value:token,
+                expires: 3,
+            },
             success: true,
             message: "Login successful",
             err: {},

@@ -1,3 +1,4 @@
+const  RoomService  = require("./room-service");
 const {FriendRepository,UserRepository} = require("../repository/index");
 
 class FriendService {
@@ -5,6 +6,7 @@ class FriendService {
     constructor(){
         this.friendRepository = new FriendRepository();
         this.userRepository = new UserRepository();
+        this.roomService = new RoomService();
     }
 
     async sendRequest(from,to){
@@ -15,6 +17,9 @@ class FriendService {
             if(!friend){
                 friend = await this.friendRepository.create({userId:toRequest.id}); 
             } 
+            if(friend.friendRequest.includes(fromRequest.id)){
+                return new Error("Already send the friend request!");
+            }
             friend.friendRequest.push(fromRequest.id);
             await friend.save();
             return true;
@@ -24,11 +29,16 @@ class FriendService {
         }
     }
 
-    async manageFriendRequest(from,to,toAcceptRequest){
+    async manageFriendRequest(to,from,toAcceptRequest){
         try {
             const fromRequest = await this.userRepository.get(from);
             const toRequest = await  this.userRepository.get(to);
+
             const friendTo = await this.friendRepository.find({userId:toRequest.id});
+
+            if(!friendTo.friendRequest.includes(fromRequest.id)){
+                return new Error("Friend request not exist!");
+            }
 
             friendTo.friendRequest = friendTo.friendRequest.filter((id)=>{
                 return (id.toString() !== fromRequest.id);
@@ -46,6 +56,8 @@ class FriendService {
                 await friendFrom.save();
 
                 // now async create a message room for them
+                this.roomService.createTwoPeopleRoom(fromRequest.id,toRequest.id);
+
             }
 
             await friendTo.save();
@@ -66,6 +78,7 @@ class FriendService {
             friendTo.friends = friendTo.friends.filter((id)=>{
                 return (id.toString() !== from);
             });
+            
             friendFrom.friends = friendFrom.friends.filter((id)=>{
                 return (id.toString() !== to);
             });
@@ -74,6 +87,22 @@ class FriendService {
             await friendFrom.save();
             
             // async delete their room.
+            
+            // const roomId = await this.roomService.destroyRoomOfTwo(from,to);
+            
+            
+            // if deletion of room is required while doing unfriend then also delete room id from user model of user. 
+            
+            // const user1 = await this.userRepository.get(to);
+            // const user2 = await this.userRepository.get(from);
+            // user1.rooms = user1.rooms.filter((id)=>{
+            //     return id.toString() !== roomId;
+            // });
+            // user1.save();
+            // user2.rooms = user2.rooms.filter((id)=>{
+            //     return id.toString() !== roomId;
+            // });
+            // user2.save();
 
             return true;
         } catch (error) {

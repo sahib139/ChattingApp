@@ -16,13 +16,7 @@ const UserSchema = new mongoose.Schema({
     password:{
         type:String,
         require:true,
-    },
-    rooms:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Room",
-        }
-    ]
+    }
 
 },{timestamps:true});
 
@@ -38,7 +32,7 @@ UserSchema.methods.comparePassword = function comparePassword(password){
 
 UserSchema.methods.genToken = function genToken(){
     return jwt.sign(
-        {id:this.id,email:this.email},
+        {id:this.id,email:this.email,name:this.name},
         SECRET_KEY,
         {expiresIn:'3d'}
     );

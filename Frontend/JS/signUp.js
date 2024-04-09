@@ -1,14 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("hello");
     const form = document.getElementById("signUpForm");
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const name = document.getElementById("name").value;
-        const email = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         try {
-            const response = await axios.post("http://localhost:3000/v1/singUp", {
+            const response = await axios.post("http://localhost:3000/api/v1/signUp", {
                 name,
                 email,
                 password
@@ -19,5 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.error("Login failed:", error);
         }
+    });
+    const LogIn = document.getElementById('LogIn-btn');
+    LogIn.addEventListener("click",(e)=>{
+        e.preventDefault(); 
+        window.location.href = "/";
     });
 });

@@ -18,6 +18,21 @@ class FriendRepository extends CrudRepository{
         }
     }
 
+    async userWithRoomAndNames(userId){
+        try {
+            const userInDetail = await Friend.findOne({userId}).populate({
+                path:"rooms",
+                populate:{
+                    path:"users",
+                }
+            });
+            return userInDetail;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports=FriendRepository;

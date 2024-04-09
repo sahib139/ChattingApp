@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting Area</title>
+    <link rel="stylesheet" href="../CSS/chattingArea.css">
+</head>
+<body>
+    <div class="chatting-area">
+        <div class="header"><span id="friendName"></span></div>
+        <hr>
+        <div class = "chats">
+            <ul id = "chatList">
+
+            </ul>
+        </div>
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../JS/chattingArea.js"></script>
+</body>
+</html>
