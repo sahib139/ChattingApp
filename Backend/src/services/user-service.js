@@ -44,9 +44,9 @@ class UserService{
         }
     }
 
-    async getAll(filter){
+    async getAll(user,filter){
         try {
-            const users = await this.userRepository.getAll(filter);
+            const users = await this.userRepository.getAll(user,filter);
             return users;
         } catch (error) {
             console.log(error);

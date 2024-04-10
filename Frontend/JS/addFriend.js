@@ -48,28 +48,28 @@ async function addAppropriateValueToBtn(userId){
     const manageFriendButton1 = document.getElementById("manageFriendButton-1");
     const manageFriendButton2 = document.getElementById("manageFriendButton-2");
 
-    manageFriendButton1.value="";
+    manageFriendButton1.innerText="";
     let linkForBtn = "http://localhost:3000/api/v1/";
     let flag = false;
     if(await checkForPendingRequest(userId)){
-        manageFriendButton1.value = "Request Pending";
-        linkForBtn += `isRequestPending/${userId}`;
+        manageFriendButton1.innerText = "Request Pending";
+        linkForBtn = "";
         flag = true;  
     }
     if(!flag && await checkForFriend(userId)){
-        manageFriendButton1.value = "UnFriend";
-        linkForBtn +=`isFriend/${userId}`;
+        manageFriendButton1.innerText = "UnFriend";
+        linkForBtn +=`unFriend/${userId}`;
         flag = true;  
     }
     if(!flag && await checkForReceivedRequest(userId)){
-        manageFriendButton1.value = "Accept";
-        manageFriendButton2.value = "Reject";
+        manageFriendButton1.innerText = "Accept";
+        manageFriendButton2.innerText = "Reject";
         manageFriendButton2.hidden = false;
         linkForBtn = `manageFriendRequest`;
         flag = true;  
     }
     if(!flag){
-        manageFriendButton1.value = "Send Friend Request";
+        manageFriendButton1.innerText = "Send Friend Request";
         linkForBtn += `sendFriendRequest/${userId}`;
     }
 

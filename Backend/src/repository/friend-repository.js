@@ -56,7 +56,6 @@ class FriendRepository extends CrudRepository{
     async isFriend(from , to){
         try {
             const isFriend = await Friend.findOne({userId:from},'friends -_id');
-            console.log(isFriend);
             return isFriend.friends.includes(to); 
         } catch (error) {
             console.log(error);
