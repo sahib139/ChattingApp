@@ -18,6 +18,12 @@ const FriendSchema = new mongoose.Schema({
             ref:"User",
         }
     ],
+    pendingRequest:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+        }
+    ],
     rooms:[
         {
             type:mongoose.Schema.Types.ObjectId,

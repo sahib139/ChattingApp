@@ -4,22 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message Dashboard</title>
-    <link rel="stylesheet" href="../CSS/chatPage.css">
+    <link rel="stylesheet" href="../CSS/searchUserPage.css">
 </head>
 <body>
-    <div class="chatPage">
+    <div class="SearchingPage">
         <div class = "SearchBar-div">
             <input type="text" id="SearchBar" placeholder="Search User..">
             <input type="button" id="searchBtn" value="Search">
         </div>
-        <div class = "users">
-            <h2>Friends</h2>
-            <ul id = "usersList">
+        <h3>Search Result</h3>
+        <div id="search-area">
+            <ul id="searchList">
 
             </ul>
         </div>
+        <div id="footer">
+            <input type="button" id="prevPage" >
+            <input type="button" id="nextPage" >
+            
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/JS/chatPage.js"></script>
+    <script src="/JS/searchUserPage.js"></script>
 </body>
 </html> 

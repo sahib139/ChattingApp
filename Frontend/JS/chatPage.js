@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const friendsList = document.querySelector(".friendsList");
+    const friendsList = document.getElementById("usersList");
+    
     try {
         const response = await axios.get("http://localhost:3000/api/v1/friendsList", {
             withCredentials: true
         });
         const list = response.data.data; 
+        
         list.forEach(friend => {
             const roomLink = document.createElement("a");
             const data = { id: friend.roomId , friendName: friend.name };
@@ -14,15 +16,18 @@ document.addEventListener("DOMContentLoaded", async () => {
             roomLink.appendChild(friendLi);
             friendsList.appendChild(roomLink);
         });
-
+        
     } catch (error) {
         console.log(error);
         console.log("Unable to fetch friends!!!");
-    }
+    }    
 });
 
-// document.getElementById("searchBtn").addEventListener("click", function() {
-//     let searchInput = document.querySelector(".SearchBar").value;
+const searchBtn = document.getElementById("searchBtn");
+console.log(searchBtn);
 
-//     window.location.href = "search-results.html?query=" + encodeURIComponent(searchInput);
-// });
+searchBtn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    const searchUser = document.getElementById("SearchBar").value;
+    window.location.href=`/html/searchUserPage.html?user=${searchUser}&page=1`;
+});

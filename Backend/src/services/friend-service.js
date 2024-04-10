@@ -13,16 +13,26 @@ class FriendService {
         try {
             const fromRequest = await this.userRepository.get(from);
             const toRequest = await  this.userRepository.get(to);
-            var friend = await this.friendRepository.find({userId:toRequest.id});
-            if(!friend){
-                friend = await this.friendRepository.create({userId:toRequest.id}); 
-            } 
-            if(friend.friendRequest.includes(fromRequest.id)){
+
+            var fromFriend = await this.friendRepository.find({userId:fromRequest.id});
+            if(!fromFriend){
+                fromFriend = await this.friendRepository.create({userId:fromRequest.id});
+            }
+            if(fromFriend.pendingRequest.includes(toRequest.id)){
                 return new Error("Already send the friend request!");
             }
-            friend.friendRequest.push(fromRequest.id);
-            await friend.save();
+            await fromFriend.save(); // created a pending request;
+
+            var toFriend = await this.friendRepository.find({userId:toRequest.id});
+            if(!toFriend){
+                toFriend = await this.friendRepository.create({userId:toRequest.id}); 
+            } 
+            toFriend.friendRequest.push(fromRequest.id);
+            toFriend.save(); // done asynchronously
+            // send the request to other user
+
             return true;
+
         } catch (error) {
             console.log(error);
             throw error;
@@ -36,21 +46,29 @@ class FriendService {
 
             const friendTo = await this.friendRepository.find({userId:toRequest.id});
 
-            if(!friendTo.friendRequest.includes(fromRequest.id)){
+            const friendFrom = await this.friendRepository.find({userId:fromRequest.id});
+
+            if(!friendTo || !friendFrom){
+                throw new Error("no friend related document exists!!");
+            }
+
+            if(!fromFrond.pendingRequest.includes(toRequest.id) || !friendTo.friendRequest.includes(fromRequest.id)){
                 return new Error("Friend request not exist!");
             }
+
+            friendFrom.pendingRequest = friendFrom.pendingRequest.filter((id)=>{
+                return (id.toString() !== toRequest.id);
+            });
 
             friendTo.friendRequest = friendTo.friendRequest.filter((id)=>{
                 return (id.toString() !== fromRequest.id);
             });
 
+
+
             if(toAcceptRequest.toLowerCase() ==='yes'){
                 friendTo.friends.push(fromRequest);
 
-                var friendFrom = await this.friendRepository.find({userId:fromRequest.id});
-                if(!friendFrom){
-                    friendFrom = await this.friendRepository.create({userId:fromRequest.id}); 
-                }  
                 friendFrom.friends.push(toRequest);
 
                 await friendFrom.save();
@@ -61,7 +79,8 @@ class FriendService {
             }
 
             await friendTo.save();
-            
+            await friendFrom.save();
+
             return true;
 
         } catch (error) {
@@ -105,6 +124,55 @@ class FriendService {
             // user2.save();
 
             return true;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async isRequestPending(from , to){
+        try {
+            const isRequestPending = await this.friendRepository.isRequestPending(from,to);
+            return isRequestPending; 
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async pendingRequests(id){
+        try {
+            const allPendingRequests = await this.friendRepository.getAllPendingRequest(id);
+            return allPendingRequests; 
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async isFriend(from , to){
+        try {
+            const isFriend = await this.friendRepository.isFriend(from,to);
+            return isFriend; 
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async friendRequests(id){
+        try {
+            const allFriendRequests = await this.friendRepository.getAllFriendRequest(id);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async isRequestReceived(from,to){
+        try {
+            const isRequestReceived = await this.friendRepository.isRequestReceived(from,to);
+            return isRequestReceived;
         } catch (error) {
             console.log(error);
             throw error;

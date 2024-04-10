@@ -40,11 +40,8 @@ class UserRepository extends CrudRepository{
 
     async getAll(filter){
         try {
-            let toSearchFor ;
-            if(filter.name){
-                toSearchFor.name = filter.name;
-            }
-            const users = await User.find(toSearchFor).skip(filter.offset).limit(filter.limit).select('-password');;
+            const users = await User.find({name:{ $regex: new RegExp(filter.name, 'i') }},'name _id').skip(filter.offset).limit(filter.limit).select('-password');
+            console.log(users); 
             return users;
         } catch (error) {
             console.log(error);

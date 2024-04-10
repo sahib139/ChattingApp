@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
+    const ForEnterEvent = new Event('click');
+
     const roomDetail = getRoomId();
     const addFriendName = document.getElementById("friendName");
     addFriendName.innerText = roomDetail.friendName;
@@ -18,6 +21,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     //code to do chatting
     const socket = io("http://localhost:3000");
     socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
+
+    document.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            document.getElementById("sendButton").dispatchEvent(ForEnterEvent);
+        }
+      });
 
     document.getElementById("sendButton").addEventListener("click", () => {
         const sendMsgElement = document.getElementById("messageInput");

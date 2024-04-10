@@ -13,7 +13,7 @@ body {
     height: 100vh;
 }
 
-.chatPage {
+.SearchingPage {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,13 +62,6 @@ body {
     overflow-y: auto;
 }
 
-
-#usersList {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-}
-
 a {
     color: inherit;
     text-decoration: none;
@@ -78,20 +71,60 @@ a:active {
     color: inherit;
 }
 
-#usersList li {
+#search-area {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#searchList {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+#searchList li {
     padding: 10px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
 }
 
-#usersList li:last-child {
+#searchList li:last-child {
     border-bottom: none;
 }
 
-#usersList li:hover {
+#searchList li:hover {
     background-color: #f9f9f9;
 }
 
-#usersList li a:hover {
+#searchList li a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#searchList li a:hover {
     text-decoration: underline;
+}
+
+#footer {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#prevPage,
+#nextPage {
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    background-color: grey;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#prevPage:hover,
+#nextPage:hover {
+    background-color: grey;
 }

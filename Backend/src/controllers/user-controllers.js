@@ -67,7 +67,7 @@ const get = async (req,res)=>{
 
 const getAll = async (req,res)=>{
     try {
-        const users = await userService.getAll(req.body);
+        const users = await userService.getAll(req.query);
         return res.status(200).json({
             data:users,
             success:true,
