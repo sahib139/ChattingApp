@@ -86,7 +86,7 @@ async function addFriendRequestList(){
     try {
         const friendRequestsList = document.getElementById("friendRequestsList");
 
-        const responseRequest = await axios.get("${ServerLink}/api/v1/friendRequests", {
+        const responseRequest = await axios.get(`${ServerLink}/api/v1/friendRequests`, {
             withCredentials: true
         });
         const RequestList = responseRequest.data.data; 
