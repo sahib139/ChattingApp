@@ -1,3 +1,4 @@
+const ServerLink = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", async () => {
 
     const ForEnterEvent = new Event('click');
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     
     //code to do chatting
-    const socket = io("http://localhost:3000");
+    const socket = io(ServerLink);
     try {
         socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
     } catch (error) {
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function loadPreviousChats(roomId){
     try {
-        const response = await axios.get(`http://localhost:3000/api/v1/retrieveChats?roomId=${roomId}`, {
+        const response = await axios.get(`${ServerLink}/api/v1/retrieveChats?roomId=${roomId}`, {
             withCredentials: true
         }); 
         let chats = response.data.data; 

@@ -1,3 +1,4 @@
+const ServerLink = "http://localhost:3000";
 const userParams = new URLSearchParams(window.location.search);
 const userName = userParams.get('userName');
 const userId = userParams.get('userId');
@@ -8,7 +9,7 @@ addFriendName.innerText = userName;
 
 async function checkForPendingRequest(userId){
     try {
-        const isTrue = await axios.get(`http://localhost:3000/api/v1/isRequestPending/${userId}`, {
+        const isTrue = await axios.get(`${ServerLink}/api/v1/isRequestPending/${userId}`, {
             withCredentials: true
         });
         return isTrue.data.data;
@@ -21,7 +22,7 @@ async function checkForPendingRequest(userId){
 
 async function checkForFriend(userId){
     try {
-        const isTrue = await axios.get(`http://localhost:3000/api/v1/isFriend/${userId}`, {
+        const isTrue = await axios.get(`${ServerLink}/api/v1/isFriend/${userId}`, {
             withCredentials: true
         });
         return isTrue.data.data;
@@ -35,7 +36,7 @@ async function checkForFriend(userId){
 
 async function checkForReceivedRequest(userId){
     try {
-        const isTrue = await axios.get(`http://localhost:3000/api/v1/isRequestReceived/${userId}`, {
+        const isTrue = await axios.get(`${ServerLink}/api/v1/isRequestReceived/${userId}`, {
             withCredentials: true
         });
         return isTrue.data.data;
@@ -52,7 +53,7 @@ async function addAppropriateValueToBtn(userId){
     const manageFriendButton2 = document.getElementById("manageFriendButton-2");
 
     manageFriendButton1.innerText="";
-    let linkForBtn = "http://localhost:3000/api/v1/";
+    let linkForBtn = `${ServerLink}/api/v1/`;
     let flag = false;
     if(await checkForPendingRequest(userId)){
         manageFriendButton1.innerText = "Request Pending";
@@ -95,7 +96,7 @@ async function addAppropriateValueToBtn(userId){
         manageFriendButton1.addEventListener("click",async (e)=>{
             e.preventDefault();
             try {
-                await axios.get(`http://localhost:3000/api/v1/manageFriendRequest/${userId}/yes`, {
+                await axios.get(`${ServerLink}/api/v1/manageFriendRequest/${userId}/yes`, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -108,7 +109,7 @@ async function addAppropriateValueToBtn(userId){
         manageFriendButton2.addEventListener("click",async (e)=>{
             e.preventDefault();
             try {
-                await axios.get(`http://localhost:3000/api/v1/manageFriendRequest/${userId}/no`, {
+                await axios.get(`${ServerLink}/api/v1/manageFriendRequest/${userId}/no`, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -125,7 +126,7 @@ async function addFriendRequestList(){
     try {
         const friendRequestsList = document.getElementById("friendRequestsList");
 
-        const responseRequest = await axios.get("http://localhost:3000/api/v1/friendRequests", {
+        const responseRequest = await axios.get(`${ServerLink}/api/v1/friendRequests`, {
             withCredentials: true
         });
         const RequestList = responseRequest.data.data; 

@@ -1,8 +1,9 @@
+const ServerLink = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", async () => {
     const friendsList = document.getElementById("usersList");
     
     try {
-        const response = await axios.get("http://localhost:3000/api/v1/friendsList", {
+        const response = await axios.get(`${ServerLink}/api/v1/friendsList`, {
             withCredentials: true
         });
         const list = response.data.data; 
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         const friendRequestsList = document.getElementById("friendRequestsList");
 
-        const responseRequest = await axios.get("http://localhost:3000/api/v1/friendRequests", {
+        const responseRequest = await axios.get(`${ServerLink}/api/v1/friendRequests`, {
             withCredentials: true
         });
         const RequestList = responseRequest.data.data; 

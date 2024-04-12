@@ -1,3 +1,4 @@
+const ServerLink = "http://localhost:3000";
 let userParams = new URLSearchParams(window.location.search);
 let toSearch = userParams.get('user');
 let pageNo = parseInt(userParams.get('page'));
@@ -13,7 +14,7 @@ const searchBtn = document.getElementById("searchBtn");
 
 async function userNameList(toSearch,pageNo){
     try {
-        let users = await axios.get(`http://localhost:3000/api/v1/users?name=${toSearch}&offset=${(pageNo-1)*3}&limit=${3}`,{
+        let users = await axios.get(`${ServerLink}api/v1/users?name=${toSearch}&offset=${(pageNo-1)*3}&limit=${3}`,{
             withCredentials: true,
         });
         users = users.data.data;
@@ -85,7 +86,7 @@ async function addFriendRequestList(){
     try {
         const friendRequestsList = document.getElementById("friendRequestsList");
 
-        const responseRequest = await axios.get("http://localhost:3000/api/v1/friendRequests", {
+        const responseRequest = await axios.get("${ServerLink}/api/v1/friendRequests", {
             withCredentials: true
         });
         const RequestList = responseRequest.data.data; 
