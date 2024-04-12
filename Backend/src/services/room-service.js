@@ -60,6 +60,10 @@ class RoomService{
     async retrieveRoomsWithUserName(data){
         try {
             const response = await this.friendRepository.userWithRoomAndNames(data.id);
+            // console.log("hey ->",response);
+            if(response === null){
+                return [];
+            }
             const roomWithName = response.rooms.map((room) => {
                 if (room.users.length > 2) {
                     return { roomId: room._id, name: room.name };

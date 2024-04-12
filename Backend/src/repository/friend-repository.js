@@ -36,7 +36,8 @@ class FriendRepository extends CrudRepository{
     async isRequestPending(from , to){
         try {
             const isRequestPending = await Friend.findOne({userId:from},'pendingRequest -_id');
-            return isRequestPending.pendingRequest.includes(to); 
+            if(isRequestPending === null)return false;
+            else return isRequestPending.pendingRequest.includes(to); 
         } catch (error) {
             console.log(error);
             throw error;
@@ -56,7 +57,8 @@ class FriendRepository extends CrudRepository{
     async isFriend(from , to){
         try {
             const isFriend = await Friend.findOne({userId:from},'friends -_id');
-            return isFriend.friends.includes(to); 
+            if(isFriend === null) return false;
+            else return isFriend.friends.includes(to); 
         } catch (error) {
             console.log(error);
             throw error;
@@ -65,7 +67,9 @@ class FriendRepository extends CrudRepository{
 
     async getAllFriendRequest(userId){
         try {
-            const friendRequest = await Friend.find({userId},'friendRequest');
+            const friendRequest = await Friend.findOne({userId},'friendRequest -_id').populate({
+                path:"friendRequest",
+            });
             return friendRequest;
         } catch (error) {
             console.log(error);
@@ -76,7 +80,8 @@ class FriendRepository extends CrudRepository{
     async isRequestReceived(from,to){
         try {
             const isTrue = await Friend.findOne({userId:from},'friendRequest');
-            return isTrue.friendRequest.includes(to);
+            if(isTrue === null)return false;
+            else return isTrue.friendRequest.includes(to);
         } catch (error) {
             console.log(error);
             throw error;

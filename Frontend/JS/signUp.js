@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             console.log("signUp successful:", response.data);
-            window.location.href = '/';
+            window.location.href = '/html/signIn.html';
         } catch (error) {
             console.error("Login failed:", error);
         }
@@ -22,6 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const LogIn = document.getElementById('LogIn-btn');
     LogIn.addEventListener("click",(e)=>{
         e.preventDefault(); 
-        window.location.href = "/";
+        window.location.href = "/html/signIn.html";
     });
 });

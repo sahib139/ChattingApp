@@ -162,7 +162,12 @@ class FriendService {
 
     async friendRequests(id) {
         try {
-            const allFriendRequests = await this.friendRepository.getAllFriendRequest(id);
+            let allFriendRequests = await this.friendRepository.getAllFriendRequest(id);
+            if(allFriendRequests === null)return [];
+            allFriendRequests = allFriendRequests.friendRequest.map((friend)=>{
+                return {id:friend.id,name:friend.name};
+            });
+            return allFriendRequests;
         } catch (error) {
             console.log(error);
             throw error;

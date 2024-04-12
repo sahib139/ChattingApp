@@ -8,17 +8,20 @@
 </head>
 <body>
     <div class="chatPage">
-        <div class = "SearchBar-div">
+        <div class="SearchBar-div">
             <input type="text" id="SearchBar" placeholder="Search User..">
             <input type="button" id="searchBtn" value="Search">
         </div>
-        <div class = "users">
+        <div class="users">
             <h2>Friends</h2>
-            <ul id = "usersList">
-
-            </ul>
+            <ul id="usersList"></ul>
         </div>
     </div>
+    <div class="friendRequestsBox">
+        <h2>Friend Requests</h2>
+        <ul id="friendRequestsList"></ul>
+    </div>
+    <a href="#" id="logoutBtn">Logout</a>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/JS/chatPage.js"></script>
 </body>

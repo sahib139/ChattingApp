@@ -4,7 +4,7 @@ const {PORT} = require("./config/FrontendServer-config");
 
 app.use(express.static(__dirname));
 app.get("/",(req,res)=>{
-    res.sendFile(__dirname+"/html/signIn.html");
+    res.sendFile(__dirname+"/html/chatPage.html");
 })
 
 app.listen(PORT, () => {

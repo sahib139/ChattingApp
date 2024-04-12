@@ -19,6 +19,7 @@ async function userNameList(toSearch,pageNo){
         users = users.data.data;
         return users;
     } catch (error) {
+        checkForTokenAuthenticationError(error);
         console.log("Unable to fetch users!!");
         return [];
     }
@@ -64,3 +65,44 @@ searchBtn.addEventListener("click",(e)=>{
     toSearch = searchBar.value;
     window.location.href = `/html/searchUserPage.html?user=${toSearch}&page=1`;
 });
+
+function checkForTokenAuthenticationError(error){
+    if(error.response.data.err==='JwtTokenError'){
+        window.location.href = '/html/signIn.html';
+    }
+    return false;
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = '/html/signIn.html';
+});
+
+async function addFriendRequestList(){
+    try {
+        const friendRequestsList = document.getElementById("friendRequestsList");
+
+        const responseRequest = await axios.get("http://localhost:3000/api/v1/friendRequests", {
+            withCredentials: true
+        });
+        const RequestList = responseRequest.data.data; 
+    
+        RequestList.forEach(request => {
+            const requestLi = document.createElement("li");
+            const requestLink = document.createElement("a");
+            requestLink.href = `/html/addFriendPage.html?userName=${request.name}&userId=${request.id}`; 
+            requestLi.textContent = request.name;
+            friendRequestsList.appendChild(requestLink);
+            requestLink.appendChild(requestLi);
+        });
+    } catch (error) {
+        checkForTokenAuthenticationError(error);
+        console.log(error);
+        throw error;
+    }
+}
+
+addFriendRequestList();

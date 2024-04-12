@@ -23,6 +23,28 @@ body {
     border-radius: 5px;
     background-color: #fff;
 }
+.users {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+
+#usersList {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+#usersList li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#usersList li:last-child {
+    border-bottom: none;
+} 
 
 .SearchBar-div {
     display: flex;
@@ -53,21 +75,10 @@ body {
 }
 
 #searchBtn:hover {
-    background-color: grey;
-}
-
-.users {
-    width: 100%;
-    max-height: 300px;
-    overflow-y: auto;
+    background-color: darkgrey;
 }
 
 
-#usersList {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-}
 
 a {
     color: inherit;
@@ -78,20 +89,65 @@ a:active {
     color: inherit;
 }
 
-#usersList li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
-
-#usersList li:last-child {
-    border-bottom: none;
-}
-
 #usersList li:hover {
     background-color: #f9f9f9;
 }
 
 #usersList li a:hover {
     text-decoration: underline;
+}
+
+.friendRequestsBox {
+    position: fixed;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 999; /* Ensure it's above other content */
+}
+
+.friendRequestsBox h2 {
+    margin-bottom: 10px;
+}
+
+#friendRequestsList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+#friendRequestsList li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#friendRequestsList li:last-child {
+    border-bottom: none;
+}
+
+#friendRequestsList li:hover {
+    background-color: #f9f9f9;
+}
+
+#logoutBtn {
+    position: fixed;
+    top: 30px;
+    right: 20%;
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    background-color: grey;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 999; /* Ensure it's above other content */
+}
+
+#logoutBtn:hover {
+    background-color: darkgrey;
 }

@@ -13,6 +13,7 @@ async function checkForPendingRequest(userId){
         });
         return isTrue.data.data;
     } catch (error) {
+        checkForTokenAuthenticationError(error);
         console.log("Unable to perform checkForPendingRequest because of "+error);
         throw error;
     }
@@ -25,6 +26,7 @@ async function checkForFriend(userId){
         });
         return isTrue.data.data;
    } catch (error) {
+        checkForTokenAuthenticationError(error);
         console.log("Unable to perform checkForFriend "+error);
         throw error;
 
@@ -38,6 +40,7 @@ async function checkForReceivedRequest(userId){
         });
         return isTrue.data.data;
     } catch (error) {
+        checkForTokenAuthenticationError(error);
         console.log("Unable to perform checkForReceivedRequest "+error);
         throw error;
 
@@ -81,6 +84,7 @@ async function addAppropriateValueToBtn(userId){
                     withCredentials: true
                 });
             } catch (error) {
+                checkForTokenAuthenticationError(error);
                 console.log("Unable to perform the operation due to "+error);
             throw error;
 
@@ -95,6 +99,7 @@ async function addAppropriateValueToBtn(userId){
                     withCredentials: true
                 });
             } catch (error) {
+                checkForTokenAuthenticationError(error);
                 console.log("Unable to perform the operation due to "+error);
                 throw error;
             }
@@ -107,6 +112,7 @@ async function addAppropriateValueToBtn(userId){
                     withCredentials: true
                 });
             } catch (error) {
+                checkForTokenAuthenticationError(error);
                 console.log("Unable to perform the operation due to "+error);
                 throw error;    
             }
@@ -115,4 +121,44 @@ async function addAppropriateValueToBtn(userId){
     }
 }
 
+async function addFriendRequestList(){
+    try {
+        const friendRequestsList = document.getElementById("friendRequestsList");
+
+        const responseRequest = await axios.get("http://localhost:3000/api/v1/friendRequests", {
+            withCredentials: true
+        });
+        const RequestList = responseRequest.data.data; 
+    
+        RequestList.forEach(request => {
+            const requestLi = document.createElement("li");
+            const requestLink = document.createElement("a");
+            requestLink.href = `/html/addFriendPage.html?userName=${request.name}&userId=${request.id}`; 
+            requestLi.textContent = request.name;
+            friendRequestsList.appendChild(requestLink);
+            requestLink.appendChild(requestLi);
+        });
+    } catch (error) {
+        checkForTokenAuthenticationError(error);
+        console.log(error);
+        throw error;
+    }
+}
+
+function checkForTokenAuthenticationError(error){
+    if(error.response.data.err==='JwtTokenError'){
+        window.location.href = '/html/signIn.html';
+    }
+    return false;
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = '/html/signIn.html';
+});
+
 addAppropriateValueToBtn(userId);
+addFriendRequestList();

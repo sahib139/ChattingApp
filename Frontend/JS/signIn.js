@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    if(document.cookie){
+        window.location.href='/html/chatPage.html';
+    }
     const form = document.getElementById("loginForm");
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -24,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const SignUp = document.getElementById('SignUp-btn');
     SignUp.addEventListener("click",(e)=>{
         e.preventDefault(); 
-        window.location.href = "./html/signUp.html";
+        window.location.href = "/html/signUp.html";
     });
 });
 

@@ -20,7 +20,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     //code to do chatting
     const socket = io("http://localhost:3000");
-    socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
+    try {
+        socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
+    } catch (error) {
+        checkForTokenAuthenticationError(error);
+        console.log(error);
+        throw error;
+    }
 
     document.addEventListener('keyup', function(event) {
         if (event.key === 'Enter') {
@@ -32,7 +38,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const sendMsgElement = document.getElementById("messageInput");
         const sendMsg = sendMsgElement.value;
 
-        socket.emit("message", { roomId: roomDetail.id, msg: sendMsg , authToken:token });
+        try {
+            socket.emit("message", { roomId: roomDetail.id, msg: sendMsg , authToken:token });
+        } catch (error) {
+            checkForTokenAuthenticationError(error);
+            console.log(error);
+            throw error;
+        }
         sendMsgElement.value = "";  
     });
     
@@ -52,6 +64,7 @@ async function loadPreviousChats(roomId){
         chats.sort((a, b) => a.time - b.time);
         return chats;
     } catch (error) {
+        checkForTokenAuthenticationError(error);
         console.log("Unable to chat previous chats due to "+error);
         return [];
     }
@@ -63,3 +76,18 @@ function getRoomId(){
     const data = JSON.parse(dataString);
     return data;
 }
+
+function checkForTokenAuthenticationError(error){
+    if(error.response.data.err==='JwtTokenError'){
+        window.location.href = '/html/signIn.html';
+    }
+    return false;
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = '/html/signIn.html';
+});
