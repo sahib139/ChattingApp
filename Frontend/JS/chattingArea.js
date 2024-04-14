@@ -1,4 +1,4 @@
-const ServerLink = "http://localhost:3000";
+const ServerLink = "http://13.60.19.44:3000";
 document.addEventListener("DOMContentLoaded", async () => {
 
     const ForEnterEvent = new Event('click');
