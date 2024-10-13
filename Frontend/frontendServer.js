@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");  
+const http = require("http");
 const fs = require("fs");       
 const app = express();
 const {PORT} = require("./config/FrontendServer-config");
@@ -14,6 +15,10 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/html/chatPage.html");
 });
 
-https.createServer(options, app).listen(PORT, () => {
-  console.log("HTTPS server started at port " + PORT);
+// https.createServer(options, app).listen(PORT, () => {
+//   console.log("HTTPS server started at port " + PORT);
+// });
+
+http.createServer(app).listen(PORT, () => {
+  console.log("HTTP server started at port " + PORT);
 });
