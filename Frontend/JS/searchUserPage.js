@@ -1,4 +1,4 @@
-const ServerLink = "http://13.60.19.44:3000";
+const ServerLink = "https://13.60.19.44:3000";
 let userParams = new URLSearchParams(window.location.search);
 let toSearch = userParams.get('user');
 let pageNo = parseInt(userParams.get('page'));

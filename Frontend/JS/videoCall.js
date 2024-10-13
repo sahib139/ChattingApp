@@ -3,8 +3,7 @@ const remoteVideo = document.getElementById('remoteVideo');
 const generateRoomId = document.getElementById('generateroomId');
 const joinRoom = document.getElementById('joinRoom');
 
-// const socket = io.connect('http://13.60.19.44:3000');
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://13.60.19.44:3000');
 
 let localStream;
 let peerConnection;

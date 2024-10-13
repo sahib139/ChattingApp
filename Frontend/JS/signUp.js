@@ -1,4 +1,4 @@
-const ServerLink = "http://13.60.19.44:3000"
+const ServerLink = "https://13.60.19.44:3000"
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("signUpForm");
     form.addEventListener("submit", async (e) => {
