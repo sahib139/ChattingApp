@@ -21,13 +21,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     //code to do chatting
     const socket = io(ServerLink);
-    try {
-        socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
-    } catch (error) {
-        checkForTokenAuthenticationError(error);
-        console.log(error);
-        throw error;
-    }
+    socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("chat-intialization");
+
+        try {
+            socket.emit("joinRoom",{roomId:roomDetail.id,authToken:token});
+        } catch (error) {
+            checkForTokenAuthenticationError(error);
+            console.log(error);
+            throw error;
+        }
+
+        socket.on("userMessage", (payload) => {
+            const addNewReceiveMsg = document.createElement("li");
+            addNewReceiveMsg.innerText = `${payload.name}: ${payload.msg}`;
+            chatList.appendChild(addNewReceiveMsg);
+        });
+
+        socket.on("redirect-other-user-to-videoCall-page",(payload)=>{
+            window.location.href = payload.url;
+        });
+    });
+
+    
 
     document.addEventListener('keyup', function(event) {
         if (event.key === 'Enter') {
@@ -49,10 +66,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         sendMsgElement.value = "";  
     });
     
-    socket.on("userMessage", (payload) => {
-        const addNewReceiveMsg = document.createElement("li");
-        addNewReceiveMsg.innerText = `${payload.name}: ${payload.msg}`;
-        chatList.appendChild(addNewReceiveMsg);
+
+    document.getElementById("videoCallButton").addEventListener("click",()=>{
+        let roomID = getRoomId();
+        roomID = roomID.id;
+        socket.emit("is-video-call-possible",{roomID});
+        socket.on("is-video-call-possible-ans",(payload)=>{
+            if(payload.is_possible){
+                socket.emit("redirect-other-user-to-videoCall-page",{url:`/html/videoCall.html?roomID=${roomID}`,roomID});
+                window.location.href = `/html/videoCall.html?roomID=${roomID}`;
+            } else {
+                alert("Not enough peers to start a video call.");
+            }
+        });
     });
 });
 

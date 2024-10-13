@@ -14,7 +14,7 @@ const searchBtn = document.getElementById("searchBtn");
 
 async function userNameList(toSearch,pageNo){
     try {
-        let users = await axios.get(`${ServerLink}api/v1/users?name=${toSearch}&offset=${(pageNo-1)*3}&limit=${3}`,{
+        let users = await axios.get(`${ServerLink}/api/v1/users?name=${toSearch}&offset=${(pageNo-1)*3}&limit=${3}`,{
             withCredentials: true,
         });
         users = users.data.data;
